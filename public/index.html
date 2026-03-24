@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🦛 보험 서류 접수 | 안티그래비티</title>
+    <meta name="description" content="보험금 청구에 필요한 서류를 간편하게 제출하세요. 하마군단이 자동으로 처리해 드립니다.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script
+        src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <style>
+        /* ===== DESIGN SYSTEM: 30대~70대 접근성 최적화 ===== */
+        :root {
+            --primary: #0062CC;
+            --primary-light: #E8F2FF;
+            --primary-dark: #004A99;
+            --success: #059669;
+            --success-light: #ECFDF5;
+            --warning: #D97706;
+            --warning-light: #FFFBEB;
+            --error: #DC2626;
+            --error-light: #FEF2F2;
+            --text-primary: #1A1A1A;
+            --text-secondary: #555555;
+            --text-muted: #888888;
+            --bg-white: #FFFFFF;
+            --bg-gray: #F8F9FA;
+            --bg-card: #FFFFFF;
+            --border: #E2E8F0;
+            --border-focus: #0062CC;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --font-size-base: 18px;
+            --font-size-lg: 20px;
+            --font-size-xl: 24px;
+            --font-size-2xl: 28px;
+            --font-size-sm: 15px;
+            --font-size-xs: 13px;
+            --touch-min: 56px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            background: var(--bg-gray);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .header-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            font-size: var(--font-size-lg);
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .header-text p {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .progress-bar {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            border: 3px solid var(--border);
+            color: var(--text-muted);
+            background: var(--bg-white);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .step-circle.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .step-circle.done {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .step-line {
+            width: 60px;
+            height: 3px;
+            background: var(--border);
+            transition: background 0.3s ease;
+        }
+
+        .step-line.done {
+            background: var(--success);
+        }
+
+        .step-label {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .step-label.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .step-label.done {
+            color: var(--success);
+        }
+
+        .step-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 200px;
+        }
+
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .section-desc {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--font-size-base);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .form-label .required {
+            color: var(--error);
+            margin-left: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            min-height: var(--touch-min);
+            padding: 14px 16px;
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-white);
+            color: var(--text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 4px rgba(0, 98, 204, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .doc-section {
+            margin-bottom: 20px;
+        }
+
+        .doc-section-title {
+            font-size: var(--font-size-base);
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .doc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-white);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            min-height: var(--touch-min);
+            transition: all 0.2s ease;
+        }
+
+        .doc-item.uploaded {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .doc-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .doc-item-check {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+            color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .doc-item.uploaded .doc-item-check {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .doc-item-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .doc-item-note {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .doc-item-btn {
+            min-width: 80px;
+            min-height: 44px;
+            padding: 10px 14px;
+            font-size: 15px;
+            font-weight: 700;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            background: var(--bg-white);
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            font-family: inherit;
+        }
+
+        .doc-item-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .doc-item.uploaded .doc-item-btn {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+            padding: 12px 20px;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
+            z-index: 100;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .bottom-inner {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            min-height: var(--touch-min);
+            font-size: var(--font-size-lg);
+            font-weight: 800;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            letter-spacing: -0.3px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-primary:disabled {
+            background: #B0C4DE;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-gray);
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+            flex: 0.4;
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-submit {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #047857;
+        }
+
+        .btn-submit:disabled {
+            background: #A7F3D0;
+            cursor: not-allowed;
+        }
+
+        .help-banner {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .help-banner p {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .help-banner a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: var(--font-size-lg);
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: var(--bg-white);
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            transition: all 0.2s;
+        }
+
+        .help-banner a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-screen h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+
+        .success-screen p {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .success-summary {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .success-summary dt {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .success-summary dd {
+            font-weight: 600;
+            font-size: 17px;
+            margin-top: 4px;
+        }
+
+        .photo-tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 13px;
+            color: #666;
+            background: #FFF8E1;
+            border: 1px solid #FFD54F;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .photo-tip-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .photo-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .preview-thumb {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--success);
+        }
+
+        .preview-thumb-count {
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            background: var(--success);
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .preview-thumb-count span {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-retake {
+            min-height: 40px;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: 700;
+            border: 2px solid var(--warning);
+            border-radius: 10px;
+            background: var(--warning-light);
+            color: var(--warning);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .btn-retake:hover {
+            background: var(--warning);
+            color: white;
+        }
+
+        .file-input-hidden {
+            display: none;
+        }
+
+        /* Upload progress overlay */
+        .upload-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-overlay.active {
+            display: flex;
+        }
+
+        .upload-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+        }
+
+        .upload-card .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .upload-card h3 {
+            font-size: var(--font-size-lg);
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .upload-card p {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-logo">🦛</div>
+            <div class="header-text">
+                <h1>보험 서류 접수</h1>
+                <p>안티그래비티 하마군단 자동 처리 시스템</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="progress-bar">
+        <div class="progress-steps">
+            <div class="step-wrap">
+                <div class="step-circle active" id="step-dot-1">1</div>
+                <div class="step-label active" id="step-lbl-1">기본정보</div>
+            </div>
+            <div class="step-line" id="step-line-1"></div>
+            <div class="step-wrap">
+                <div class="step-circle" id="step-dot-2">2</div>
+                <div class="step-label" id="step-lbl-2">서류첨부</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- STEP 1 -->
+        <div class="step-panel active" id="panel-1">
+            <h2 class="section-title">📋 기본 정보를 입력해 주세요</h2>
+            <p class="section-desc">청구에 필요한 기본 정보입니다. 정확히 입력해 주세요.</p>
+            <div class="form-group">
+                <label class="form-label">이름 (피보험자)<span class="required">*</span></label>
+                <input type="text" class="form-input" id="input-name" placeholder="예: 홍길동" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">병원명<span class="required">*</span></label>
+                <input type="text" class="form-input" id="input-hospital" placeholder="예: 세브란스병원">
+            </div>
+            <div class="form-group">
+                <label class="form-label">진료일<span class="required">*</span></label>
+                <input type="date" class="form-input" id="input-date">
+            </div>
+            <div class="form-group">
+                <label class="form-label">보험회사</label>
+                <input type="text" class="form-input" id="input-company" placeholder="예: 삼성생명, DB손보 (여러 개 가능)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">메모 (선택사항)</label>
+                <textarea class="form-input" id="input-memo" rows="3" placeholder="특이사항이 있으면 적어주세요"
+                    style="resize:vertical;"></textarea>
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step-panel" id="panel-2">
+            <h2 class="section-title">📎 서류를 첨부해 주세요</h2>
+            <p class="section-desc">각 항목의 <strong>"첨부"</strong> 버튼을 눌러 사진을 찍거나 파일을 선택해 주세요.</p>
+            <div id="doc-checklist"></div>
+            <div class="help-banner">
+                <p>🤔 서류가 애매하거나 잘 모르겠으시면?</p>
+                <a href="tel:01041364544">📞 류효종 010-4136-4544</a>
+            </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="step-panel" id="panel-success">
+            <div class="success-screen">
+                <div class="success-icon">🦛✅</div>
+                <h2>접수 완료!</h2>
+                <p>서류가 성공적으로 접수되었습니다.<br>하마군단이 자동으로 처리할 예정입니다.</p>
+                <div class="success-summary">
+                    <dl>
+                        <dt>이름</dt>
+                        <dd id="summary-name">-</dd>
+                        <dt>병원</dt>
+                        <dd id="summary-hospital">-</dd>
+                        <dt>진료일</dt>
+                        <dd id="summary-date">-</dd>
+                        <dt>첨부 서류</dt>
+                        <dd id="summary-files">-</dd>
+                    </dl>
+                </div>
+                <div class="help-banner" style="margin-top:24px;">
+                    <p>문의사항이 있으시면 연락해 주세요</p>
+                    <a href="tel:01041364544">📞 류효종 010-4136-4544</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar" id="bottom-bar">
+        <div class="bottom-inner">
+            <div class="help-banner" style="border:none; padding:8px; margin-bottom:8px; background:transparent;">
+                <a href="tel:01041364544" style="font-size:15px; padding:8px 16px; border:1px solid var(--primary);">📞
+                    도움이 필요하시면 전화주세요</a>
+            </div>
+            <div class="btn-row" id="btn-row">
+                <button class="btn btn-primary" id="btn-next" onclick="nextStep()">다음 →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload overlay -->
+    <div class="upload-overlay" id="upload-overlay">
+        <div class="upload-card">
+            <div class="spinner"></div>
+            <h3 id="upload-title">📤 전송 중...</h3>
+            <p id="upload-status">서류를 안전하게 전송하고 있습니다.<br>잠시만 기다려 주세요.</p>
+            <div style="margin-top:20px; background:#eee; height:8px; border-radius:4px; overflow:hidden;">
+                <div id="upload-progress-bar"
+                    style="width:0%; height:100%; background:var(--primary); transition:width 0.3s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" class="file-input-hidden" id="file-input" accept="image/*,application/pdf,.pdf" multiple>
+
+    <script>
+        let currentStep = 1;
+        let uploadedFiles = {};
+        let currentDocKey = null;
+        let isUploading = false;
+
+        const DOC_DB = {
+            '모든서류': {
+                title: '📎 청구 서류 (영수증, 진단서 등 일체)',
+                icon: '📑',
+                docs: [
+                    { key: 'all_documents', name: '필요한 서류를 이곳에 모두 첨부해 주세요.', note: '사진 촬영 또는 갤러리/파일 보관함 선택' }
+                ]
+            }
+        };
+
+        function updateProgress() {
+            for (let i = 1; i <= 2; i++) {
+                const dot = document.getElementById(`step-dot-${i}`);
+                const lbl = document.getElementById(`step-lbl-${i}`);
+                dot.className = 'step-circle';
+                lbl.className = 'step-label';
+                if (i < currentStep) { dot.classList.add('done'); dot.innerHTML = '✓'; lbl.classList.add('done'); }
+                else if (i === currentStep) { dot.classList.add('active'); dot.innerHTML = i; lbl.classList.add('active'); }
+                else { dot.innerHTML = i; }
+            }
+            const line = document.getElementById('step-line-1');
+            line.className = 'step-line' + (1 < currentStep ? ' done' : '');
+        }
+
+        function showPanel(step) {
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            if (step === 'success') {
+                document.getElementById('panel-success').classList.add('active');
+                document.getElementById('bottom-bar').style.display = 'none';
+            } else {
+                document.getElementById(`panel-${step}`).classList.add('active');
+                document.getElementById('bottom-bar').style.display = 'block';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateButtons() {
+            const row = document.getElementById('btn-row');
+            if (currentStep === 1) {
+                row.innerHTML = `<button class="btn btn-primary" onclick="nextStep()">다음 →</button>`;
+            } else if (currentStep === 2) {
+                row.innerHTML = `
+                <button class="btn btn-secondary" onclick="prevStep()">← 이전</button>
+                <button class="btn btn-submit" onclick="submitClaim()">✅ 제출하기</button>`;
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                const name = document.getElementById('input-name').value.trim();
+                const hospital = document.getElementById('input-hospital').value.trim();
+                const date = document.getElementById('input-date').value;
+                if (!name || !hospital || !date) {
+                    alert('이름, 병원명, 진료일을 모두 입력해 주세요.');
+                    return;
+                }
+                buildDocChecklist();
+            }
+            currentStep++;
+            updateProgress();
+            showPanel(currentStep);
+            updateButtons();
+        }
+
+        function prevStep() {
+            currentStep--;
+            updateProgress();
+            showPanel(currentStep);
+            updateButtons();
+        }
+
+        function buildDocChecklist() {
+            const container = document.getElementById('doc-checklist');
+            container.innerHTML = renderDocSection('모든서류');
+        }
+
+        function renderDocSection(sectionKey) {
+            const section = DOC_DB[sectionKey];
+            if (!section) return '';
+            let html = `<div class="doc-section"><div class="doc-section-title">${section.icon} ${section.title}</div>`;
+            section.docs.forEach(doc => {
+                const files = uploadedFiles[doc.key] || [];
+                const isUploaded = files.length > 0;
+                const fileCount = files.length;
+                let previewHtml = '';
+                if (isUploaded) {
+                    const firstFile = files[0];
+                    const isImage = firstFile.type.startsWith('image/');
+                    if (isImage) {
+                        const url = URL.createObjectURL(firstFile);
+                        previewHtml = `<div class="photo-preview"><img src="${url}" class="preview-thumb" alt="미리보기">${fileCount > 1 ? `<div class="preview-thumb-count">${fileCount}<span>장</span></div>` : ''}<button class="btn-retake" onclick="triggerUpload('${doc.key}')">🔄 다시 찍기</button></div>`;
+                    } else {
+                        previewHtml = `<div class="photo-preview"><div class="preview-thumb-count">📄<span>${fileCount}개</span></div><button class="btn-retake" onclick="triggerUpload('${doc.key}')">🔄 다시 선택</button></div>`;
+                    }
+                }
+                html += `
+                <div class="doc-item ${isUploaded ? 'uploaded' : ''}" id="doc-${doc.key}">
+                    <div style="width:100%;">
+                        <div style="display:flex; align-items:center; justify-content:space-between;">
+                            <div class="doc-item-left">
+                                <div class="doc-item-check">${isUploaded ? '✓' : ''}</div>
+                                <div>
+                                    <div class="doc-item-name">${doc.name}</div>
+                                    ${doc.note ? `<div class="doc-item-note">${doc.note}</div>` : ''}
+                                </div>
+                            </div>
+                            ${!isUploaded ? `<button class="doc-item-btn" onclick="triggerUpload('${doc.key}')">📎 첨부</button>` : ''}
+                        </div>
+                        ${previewHtml}
+                        ${!isUploaded ? `<div class="photo-tip"><span class="photo-tip-icon">📷</span><span>서류 전체가 화면 <strong>정중앙</strong>에 다 보이도록 찍어주세요. 글씨가 잘 보여야 처리가 가능합니다.</span></div>` : ''}
+                    </div>
+                </div>`;
+            });
+            html += `</div>`;
+            return html;
+        }
+
+        function triggerUpload(docKey) {
+            currentDocKey = docKey;
+            document.getElementById('file-input').click();
+        }
+
+        document.getElementById('file-input').addEventListener('change', function (e) {
+            if (!currentDocKey) return;
+            const files = Array.from(e.target.files);
+            e.target.value = '';
+            if (files.length > 0) {
+                uploadedFiles[currentDocKey] = files;
+                buildDocChecklist();
+            }
+        });
+
+        window.onbeforeunload = function () {
+            if (isUploading) return "서류 전송 중입니다. 페이지를 벗어나면 전송이 중단될 수 있습니다. 정말 나가시겠어요?";
+        };
+
+        // ===== Convert File to base64 =====
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ===== SUBMIT (Sequential Upload to prevent 413) =====
+        async function submitClaim() {
+            const allFiles = [];
+            for (const [docKey, fileList] of Object.entries(uploadedFiles)) {
+                for (const file of fileList) {
+                    allFiles.push({ file, docKey });
+                }
+            }
+
+            if (allFiles.length === 0) {
+                alert('최소 1개 이상의 서류를 첨부해 주세요.');
+                return;
+            }
+
+            isUploading = true;
+            document.getElementById('upload-overlay').classList.add('active');
+            const statusEl = document.getElementById('upload-status');
+            const progressEl = document.getElementById('upload-progress-bar');
+
+            try {
+                const claimData = {
+                    name: document.getElementById('input-name').value,
+                    hospital: document.getElementById('input-hospital').value,
+                    date: document.getElementById('input-date').value,
+                    company: document.getElementById('input-company').value,
+                    memo: document.getElementById('input-memo').value,
+                    types: []
+                };
+
+                // STEP 1: Submit Metadata
+                statusEl.innerHTML = '📋 기본 정보 등록 중...';
+                progressEl.style.width = '5%';
+
+                const initRes = await fetch('/api/claim', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ claimData, files: [] }) // No files in first step
+                });
+
+                if (!initRes.ok) throw new Error('기본 정보 등록에 실패했습니다.');
+                const { claimId } = await initRes.json();
+
+                // STEP 2: Sequential File Uploads
+                for (let i = 0; i < allFiles.length; i++) {
+                    const { file, docKey } = allFiles[i];
+                    const progress = Math.round(5 + (90 * (i / allFiles.length)));
+                    progressEl.style.width = `${progress}%`;
+
+                    let processedFile = file;
+                    const isImage = file.type.startsWith('image/');
+
+                    if (isImage && file.size > 0.3 * 1024 * 1024) {
+                        statusEl.innerHTML = `⚡ ${i + 1}/${allFiles.length} 서류 압축 중...<br><span style="font-size:12px;color:#888;">(${(file.size / 1024 / 1024).toFixed(1)}MB -> 0.5MB)</span>`;
+                        try {
+                            processedFile = await imageCompression(file, {
+                                maxSizeMB: 0.5,
+                                maxWidthOrHeight: 1600,
+                                useWebWorker: true,
+                                initialQuality: 0.7
+                            });
+                        } catch (e) {
+                            console.error('Compression failed, using original:', e);
+                        }
+                    }
+
+                    // RETRY LOGIC (Max 3 attempts)
+                    let success = false;
+                    let lastError = '';
+                    for (let attempt = 1; attempt <= 3; attempt++) {
+                        try {
+                            statusEl.innerHTML = `📤 ${i + 1}/${allFiles.length} 서류 전송 중...${attempt > 1 ? ` (재시도 ${attempt}/3)` : ''}`;
+                            const base64 = await fileToBase64(processedFile);
+
+                            const appendRes = await fetch('/api/append', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    claimId,
+                                    file: {
+                                        name: `${docKey}_${processedFile.name}`,
+                                        type: processedFile.type,
+                                        data: base64
+                                    }
+                                })
+                            });
+
+                            if (appendRes.ok) {
+                                success = true;
+                                break;
+                            } else {
+                                const errData = await appendRes.json().catch(() => ({}));
+                                lastError = `Status: ${appendRes.status}, Msg: ${errData.message || 'Unknown'}`;
+                                if (appendRes.status === 413) {
+                                    lastError = "파일 한 장의 용량이 여전히 너무 큽니다(4.5MB 초과).";
+                                    break; // No point in retrying 413
+                                }
+                            }
+                        } catch (e) {
+                            lastError = e.message;
+                        }
+                        // Wait 1 second before retry
+                        await new Promise(r => setTimeout(r, 1000));
+                    }
+
+                    if (!success) throw new Error(`${i + 1}번째 서류 전송 실패\n(${lastError})`);
+
+                    // Small delay between successful appends for Notion stability
+                    await new Promise(r => setTimeout(r, 300));
+                }
+
+                // SUCCESS
+                progressEl.style.width = '100%';
+                document.getElementById('summary-name').textContent = claimData.name;
+                document.getElementById('summary-hospital').textContent = claimData.hospital;
+                document.getElementById('summary-date').textContent = claimData.date;
+                document.getElementById('summary-files').textContent = `총 ${allFiles.length}개 서류가 정상 접수되었습니다.`;
+                showPanel('success');
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert(`접수 중 오류가 발생했습니다: ${error.message}\n인터넷 연결을 확인하고 다시 시도해 주세요.`);
+            } finally {
+                isUploading = false;
+                document.getElementById('upload-overlay').classList.remove('active');
+            }
+        }
+
+        // ===== INIT =====
+        updateProgress();
+        updateButtons();
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('input-date').value = today;
+    </script>
+</body>
+
+</html>
